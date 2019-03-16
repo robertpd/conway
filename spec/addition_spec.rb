@@ -74,14 +74,20 @@ class Game
 
   def tick
     @board.cells.each do |coord, cell|
-      top = @board.cells[Point.new(coord.x, coord.y + 1)]&.is_on == false ? 1 : 0
-      bottom = @board.cells[Point.new(coord.x, coord.y + -1)]&.is_on == false ? 1 : 0
-      left = @board.cells[Point.new(coord.x + 1, coord.y)]&.is_on == false ? 1 : 0
-      right = @board.cells[Point.new(coord.x + 1, coord.y)]&.is_on == false ? 1 : 0
-
-      score = top + bottom + left + right
+      score = cell_score(coord)
       cell.turn_off if score < 2
     end
+  end
+
+  private
+
+  def cell_score(coord)
+    top = @board.cells[Point.new(coord.x, coord.y + 1)]&.is_on == false ? 1 : 0
+    bottom = @board.cells[Point.new(coord.x, coord.y + -1)]&.is_on == false ? 1 : 0
+    left = @board.cells[Point.new(coord.x + 1, coord.y)]&.is_on == false ? 1 : 0
+    right = @board.cells[Point.new(coord.x + 1, coord.y)]&.is_on == false ? 1 : 0
+
+    top + bottom + left + right
   end
 end
 
